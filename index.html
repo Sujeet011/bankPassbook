@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bank Account Management System</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+  }
+  .container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  h1, h2 {
+    text-align: center;
+  }
+  .account-info {
+    margin-bottom: 20px;
+  }
+  .account-info p {
+    margin: 5px 0;
+  }
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+  }
+  .btn:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Bank Account Management System</h1>
+  
+  <div class="account-info" id="account1">
+    <h2>Account 1</h2>
+    <p>Account Number: <span id="acc1-number"></span></p>
+    <p>Name: <span id="acc1-name"></span></p>
+    <p>Type: <span id="acc1-type"></span></p>
+    <p>Balance: $<span id="acc1-balance"></span></p>
+    <button class="btn" onclick="deposit(account1, 500)">Deposit $500</button>
+    <button class="btn" onclick="withdraw(account1, 200)">Withdraw $200</button>
+  </div>
+
+  <div class="account-info" id="account2">
+    <h2>Account 2</h2>
+    <p>Account Number: <span id="acc2-number"></span></p>
+    <p>Name: <span id="acc2-name"></span></p>
+    <p>Type: <span id="acc2-type"></span></p>
+    <p>Balance: $<span id="acc2-balance"></span></p>
+    <button class="btn" onclick="deposit(account2, 1000)">Deposit $1000</button>
+    <button class="btn" onclick="withdraw(account2, 800)">Withdraw $800</button>
+  </div>
+
+  <div class="account-info" id="account3">
+    <h2>Account 3</h2>
+    <p>Account Number: <span id="acc3-number"></span></p>
+    <p>Name: <span id="acc3-name"></span></p>
+    <p>Type: <span id="acc3-type"></span></p>
+    <p>Balance: $<span id="acc3-balance"></span></p>
+  </div>
+
+  <button class="btn" onclick="getTotalBalance()">Get Total Balance</button>
+  <p id="total-balance"></p>
+</div>
+
+<script>
+  
+  function BankAccount(accountNumber, name, type, balance) {
+    this.accountNumber = accountNumber;
+    this.name = name;
+    this.type = type;
+    this.balance = balance;
+  }
+
+ 
+  BankAccount.prototype.deposit = function(amount) {
+    this.balance += amount;
+    updateBalanceUI(this);
+  }
+
+
+  BankAccount.prototype.withdraw = function(amount) {
+    if (this.balance >= amount) {
+      this.balance -= amount;
+      updateBalanceUI(this);
+    } else {
+      alert(`Insufficient funds for withdrawal from account ${this.accountNumber}.`);
+    }
+  }
+
+
+  function updateBalanceUI(account) {
+    document.getElementById(`acc${account.accountNumber}-balance`).textContent = account.balance;
+  }
+
+
+  const account1 = new BankAccount(1, 'S.K Mahto', 'Savings', 1000);
+  const account2 = new BankAccount(2, 'Avik Singh', 'Checking', 500);
+  const account3 = new BankAccount(3, 'Ankesh suman', 'Savings', 200);
+
+  function initializeUI() {
+    document.getElementById('acc1-number').textContent = account1.accountNumber;
+    document.getElementById('acc1-name').textContent = account1.name;
+    document.getElementById('acc1-type').textContent = account1.type;
+    document.getElementById('acc1-balance').textContent = account1.balance;
+
+    document.getElementById('acc2-number').textContent = account2.accountNumber;
+    document.getElementById('acc2-name').textContent = account2.name;
+    document.getElementById('acc2-type').textContent = account2.type;
+    document.getElementById('acc2-balance').textContent = account2.balance;
+
+    document.getElementById('acc3-number').textContent = account3.accountNumber;
+    document.getElementById('acc3-name').textContent = account3.name;
+    document.getElementById('acc3-type').textContent = account3.type;
+    document.getElementById('acc3-balance').textContent = account3.balance;
+  }
+
+  
+  function deposit(account, amount) {
+    account.deposit(amount);
+  }
+
+  
+  function withdraw(account, amount) {
+    account.withdraw(amount);
+  }
+
+  
+  function getTotalBalance() {
+    const totalBalance = account1.balance + account2.balance + account3.balance;
+    document.getElementById('total-balance').textContent = `Total balance of all accounts: $${totalBalance}`;
+  }
+
+  
+  initializeUI();
+</script>
+
+</body>
+</html>
